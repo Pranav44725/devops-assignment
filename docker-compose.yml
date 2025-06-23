@@ -1,0 +1,27 @@
+
+
+version: "3"
+
+services:
+  service1:
+    build: ./service_1
+    container_name: service1
+
+  service2:
+    build: ./service_2
+    container_name: service2
+    ports:
+      - "8002:8002"
+
+  nginx:
+    build: ./nginx
+    container_name: devops-assignment-nginx
+    ports:
+      - "80:80"
+    depends_on:
+      service1:
+        condition: service_started
+      service2:
+        condition: service_started
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
